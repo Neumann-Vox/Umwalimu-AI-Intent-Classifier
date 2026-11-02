@@ -47,10 +47,10 @@ Both models are fitted using training data only:
 ### Test-set comparison (36 messages)
 | Features | Accuracy | Macro precision | Macro recall | Macro F1 |
 |---|---:|---:|---:|---:|
-| Words | 77.78% | 79.96% | 77.78% | 77.11% |
-| Characters (1,400 max features) | **80.56%** | **82.38%** | **80.56%** | **79.64%** |
+| Words | **77.78%** | **79.96%** | **77.78%** | **77.11%** |
+| Characters (768 max features) | 77.78% | 79.54% | 77.78% | 76.76% |
 
-The character model was selected because it achieved higher accuracy and macro F1 than the word model on this split. Its character vectorizer is capped at 1,400 features to keep the saved pipeline compact. These results are preliminary because the test set is small.
+The word model was selected because both candidates tied on accuracy, while the word model achieved the higher macro F1. The character vectorizer is capped at 768 features to keep its comparison compact. Selection uses macro F1, with accuracy as the tie-breaker. These results are preliminary because the test set is small.
 
 ### Per-intent metrics for the selected character model
 | Intent | Precision | Recall | F1 | Support |
@@ -70,14 +70,14 @@ Rows are actual labels; columns are predicted labels in this order: `check_answe
 | Actual / predicted | check_answer | explain_concept | learning_guidance | out_of_scope | practice_request | solve_problem |
 |---|---:|---:|---:|---:|---:|---:|
 | check_answer | 6 | 0 | 0 | 0 | 0 | 0 |
-| explain_concept | 0 | 3 | 1 | 0 | 1 | 1 |
-| learning_guidance | 0 | 0 | 5 | 1 | 0 | 0 |
+| explain_concept | 0 | 3 | 1 | 0 | 0 | 2 |
+| learning_guidance | 0 | 0 | 4 | 2 | 0 | 0 |
 | out_of_scope | 0 | 0 | 1 | 5 | 0 | 0 |
 | practice_request | 0 | 0 | 0 | 0 | 6 | 0 |
-| solve_problem | 1 | 0 | 0 | 1 | 0 | 4 |
+| solve_problem | 2 | 0 | 0 | 0 | 0 | 4 |
 
 ## Confidence threshold
-The selected threshold is **0.30**. Compared with threshold 0.20, it reduces confident wrong predictions from 4 to 1, with 10 fewer correct predictions (29 to 19), 13 more missed requests (3 to 16), and a 58.3% fallback rate (21 of 36). This is a conservative trade-off to reduce incorrect intent routing in an educational assistant; it should be re-evaluated on a larger genuine dataset.
+The selected threshold is **0.25**. Compared with threshold 0.20, it reduces confident wrong predictions from 6 to 3, with 5 fewer correct predictions (28 to 23), 8 more missed requests (2 to 10), and a 41.7% fallback rate (15 of 36). This is a compromise between avoiding incorrect intent routing and retaining useful coverage; it should be re-evaluated on a larger genuine dataset.
 
 ## Rules comparison — limitation
 The original Portfolio Project 1 chatbot rules were not available. The notebook therefore uses a **provisional dataset-derived keyword baseline**, not the original Umwalimu AI chatbot rules.
@@ -85,7 +85,7 @@ The original Portfolio Project 1 chatbot rules were not available. The notebook 
 | System | Right | Missed | Wrong |
 |---|---:|---:|---:|
 | Provisional dataset-derived rules | 23 | 13 | 0 |
-| Character classifier at threshold 0.30 | 19 | 16 | 1 |
+| Word classifier at threshold 0.25 | 23 | 10 | 3 |
 
 This comparison describes only the provisional baseline. It does not establish that the classifier outperforms the original chatbot rules.
 

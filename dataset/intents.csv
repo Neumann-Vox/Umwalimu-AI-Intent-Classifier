@@ -1,0 +1,181 @@
+text,intent,source,split
+"I wrote that a noun names a person, place or thing. Is that accurate?",check_answer,written,train
+Can u mark my maths answer pls?,check_answer,written,train
+Are these two angles supplementary? I answered yes.,check_answer,written,train
+Did I solve 4x = 20 correctly when I got x = 5?,check_answer,written,train
+Is option B the correct answer?,check_answer,written,train
+Did I get the average right? My answer is 9.,check_answer,written,train
+"Ni 5 igisubizo cyanjye kuri 2x+5=15, ni cyo?",check_answer,written,test
+Is 0.25 the same as 25 percent? Check my answer.,check_answer,written,test
+"Nabonye area ari 40 cm2, bir सही?",check_answer,written,train
+Please tell me if my answer to question 6 is correct.,check_answer,written,train
+Is my answer 5 correct for 2x + 5 = 15?,check_answer,written,test
+mbwira niba iyi solution ari correct,check_answer,written,train
+"Reba uko nabaze average, nabonye 9.",check_answer,written,train
+Can you review my steps and tell me where I made a mistake?,check_answer,written,train
+Please check my work before I submit.,check_answer,written,test
+Is my definition of photosynthesis correct? nayanditse gutya.,check_answer,written,train
+Please mark my answer: the area is 40 cm2.,check_answer,written,train
+I got 3/4 for the fraction question. Can you check it?,check_answer,written,train
+"igisubizo nanditse ni 25%, ni cyo?",check_answer,written,train
+I think the perimeter is 28 cm. Am I correct?,check_answer,written,test
+My answer is 25%. Is that right?,check_answer,written,test
+Mark this please: x = 6 for 3x - 2 = 16.,check_answer,written,train
+Can you verify my calculation of 120 divided by 3 = 40?,check_answer,written,train
+Here is my solution: 2 + 3 × 4 = 20. Is it right?,check_answer,written,train
+What is the difference between area and perimeter?,explain_concept,written,train
+nsobanurira fractions plz sinabyumva,explain_concept,written,train
+How does evaporation happen?,explain_concept,written,train
+Meaning ya denominator ni iyihe?,explain_concept,written,train
+Ndashaka kumva neza ibijyanye na geometry.,explain_concept,written,train
+What does numerator mean?,explain_concept,written,train
+What is an ecosystem?,explain_concept,written,train
+Can you explain probability using examples from daily life?,explain_concept,written,train
+Explain fractions using food examples.,explain_concept,written,train
+Why do we use brackets in mathematics?,explain_concept,written,test
+What is a fraction and how does it work?,explain_concept,written,train
+Explain equation mu buryo bworoshye pls.,explain_concept,written,train
+Nsobanurira photosynthesis mu Kinyarwanda.,explain_concept,written,train
+Fraction ni iki? Mbwira mu magambo yoroshye.,explain_concept,written,train
+Explain this topic like I am in S1.,explain_concept,written,test
+Can you teach me the meaning of a variable in mathematics?,explain_concept,written,test
+Can u teach me about angles?,explain_concept,written,train
+"Explain linear equations step by step, but don't solve an exercise.",explain_concept,written,train
+Area na perimeter bitandukaniye he?,explain_concept,written,train
+Explain photosynthesis for a beginner.,explain_concept,written,train
+Bro what does variable mean in maths?,explain_concept,written,train
+What is a noun in English grammar?,explain_concept,written,train
+Can you teach me what an adjective is?,explain_concept,written,train
+Please make geometry easier to understand.,explain_concept,written,train
+Help me make a weekly mathematics revision plan.,learning_guidance,written,train
+ndashaka gahunda yo kwitegura exam ya science,learning_guidance,written,train
+How can I balance mathematics and science revision?,learning_guidance,written,test
+"mfite iminota 30 ku munsi, ntegure gute study plan?",learning_guidance,written,train
+What is a good order for studying S1 mathematics?,learning_guidance,written,train
+Show me how to use my learning progress to choose the next topic.,learning_guidance,written,train
+Can you recommend a learning path for beginner algebra?,learning_guidance,written,test
+Ni iyihe topic nasubiramo mbere yo kwiga equations?,learning_guidance,written,test
+Nakora iki ngo ndusheho gutsinda algebra?,learning_guidance,written,train
+How can I track the topics I have completed?,learning_guidance,written,train
+Which topic should I revise before learning equations?,learning_guidance,written,train
+Can you help me organize my learning time?,learning_guidance,written,test
+Ni gute namenya ko niteguye kujya ku yindi lesson?,learning_guidance,written,train
+Help me plan revision for exams next month.,learning_guidance,written,test
+Please suggest a study routine for English grammar.,learning_guidance,written,test
+I missed some lessons. Help me decide where to restart.,learning_guidance,written,train
+I have 30 minutes each day. How should I revise?,learning_guidance,written,train
+How can I stop forgetting topics after studying?,learning_guidance,written,train
+Suggest a simple timetable for my studies pls.,learning_guidance,written,train
+How do I track progress yanjye muri lessons?,learning_guidance,written,train
+How do I know when I am ready to move to the next lesson?,learning_guidance,written,train
+Nkwiye kwiga iki nyuma ya fractions?,learning_guidance,written,train
+mfasha kumenya aho nakomereza kwiga,learning_guidance,written,train
+How should I prepare for my science test?,learning_guidance,written,train
+ndashaka kwandikira umukobwa ubutumwa bw'urukundo,out_of_scope,written,train
+Write a job application letter for a supermarket.,out_of_scope,written,train
+mfasha kubona akazi muri hotel,out_of_scope,written,train
+Can you order a pizza for me?,out_of_scope,written,train
+Who is the president of France?,out_of_scope,written,train
+Help me repair my television.,out_of_scope,written,train
+Can you reserve a restaurant for tonight?,out_of_scope,written,train
+Where can I buy a new phone?,out_of_scope,written,train
+"Can you transfer 5,000 RWF to my account?",out_of_scope,written,train
+What is the football score today?,out_of_scope,written,train
+Find me a hotel in Musanze.,out_of_scope,written,train
+Can you send money kuri MoMo?,out_of_scope,written,train
+Can you create an online shop for clothes?,out_of_scope,written,test
+Please call my friend.,out_of_scope,written,train
+Book me a flight to Nairobi.,out_of_scope,written,test
+Help me buy a laptop pls.,out_of_scope,written,test
+Give me medical advice about a painful tooth.,out_of_scope,written,train
+Tell me the latest celebrity news.,out_of_scope,written,test
+Tell me tomorrow's weather in Kigali.,out_of_scope,written,train
+nshakira hotel i Musanze,out_of_scope,written,train
+Show me how to hack someone's account.,out_of_scope,written,test
+How do I fix my phone screen?,out_of_scope,written,train
+Find a bus ticket for my trip.,out_of_scope,written,train
+Can you call my teacher for me?,out_of_scope,written,train
+Can you make a multiple-choice quiz about English nouns?,practice_request,written,train
+Set a small test on the water cycle.,practice_request,written,train
+Prepare test ya English grammar for me.,practice_request,written,train
+Give me quiz yoroheje ya S1 maths.,practice_request,written,train
+ongera undi mwitozo wa fractions,practice_request,written,train
+Ndashaka ibibazo byo kwimenyereza fractions.,practice_request,written,train
+Can you generate questions about fractions for tomorrow's revision?,practice_request,written,test
+More questions for me to practise linear equations please.,practice_request,written,test
+Can I have a short quiz on fractions?,practice_request,written,test
+Test me on Newton's laws.,practice_request,written,train
+tanga exercises za equations pls,practice_request,written,train
+I want extra practice on multiplication of decimals.,practice_request,written,train
+Mpa questions za percentages nkore practice.,practice_request,written,train
+Prepare a revision test about percentages.,practice_request,written,train
+Give me three easy equations to solve.,practice_request,written,train
+Make a short revision quiz for biology.,practice_request,written,train
+Mpa imyitozo 5 kuri algebra.,practice_request,written,train
+I need exercises on simplifying expressions.,practice_request,written,train
+Can I get homework about area and perimeter?,practice_request,written,train
+Prepare 5 questions about computer basics.,practice_request,written,train
+mpa ibibazo bya science byo kwitoza,practice_request,written,train
+Need revision questions kuri photosynthesis.,practice_request,written,train
+Give me five algebra exercises.,practice_request,written,train
+Give me practice questions on photosynthesis.,practice_request,written,train
+Help me work out 3/4 + 1/2.,solve_problem,written,train
+Can you work out question 2 from my exercise: 9 + 7 × 2?,solve_problem,written,train
+Please show the steps for 5(2 + 3) - 4.,solve_problem,written,train
+Nkoreye iyi equation: 4x - 7 = 9.,solve_problem,written,train
+Can you solve this quadratic equation x^2 - 5x + 6 = 0?,solve_problem,written,train
+"Calculate the volume of a cuboid measuring 2, 3 and 4 cm.",solve_problem,written,train
+How do I calculate the perimeter of a square with side 7 cm? Solve it.,solve_problem,written,test
+Help me solve 15 divided by 0.5.,solve_problem,written,train
+solve iyi maths 5(2+3)-4 plz,solve_problem,written,train
+"Calculate the simple interest on 10,000 at 5% for 2 years.",solve_problem,written,test
+Nyereka uko nakemura 15 divided by 0.5.,solve_problem,written,train
+Calculate the speed if a car travels 120 km in 2 hours.,solve_problem,written,train
+Help me answer question 4: simplify 3a + 2a - a.,solve_problem,written,test
+Work through this equation: 4x - 7 = 9.,solve_problem,written,train
+"Mfasha gukemura 2x + 5 = 15, unyereke intambwe.",solve_problem,written,train
+Find the missing angle if two angles on a straight line are 65 and x.,solve_problem,written,train
+Solve this word problem: John has 12 apples and gives away 5.,solve_problem,written,train
+"Help me solve this: a book costs 2,500 RWF and has a 10% discount.",solve_problem,written,train
+Solve 2x + 5 = 15 and show each step.,solve_problem,written,test
+Find x if 3x + 2 = 20.,solve_problem,written,train
+Find the area of a rectangle that is 8 cm long and 5 cm wide.,solve_problem,written,train
+Ndashaka igisubizo cya 3/4 + 1/2.,solve_problem,written,train
+"Calculate the average of 6, 8, 10 and 12.",solve_problem,written,train
+Help me gukora 25% of 240 step by step.,solve_problem,written,train
+Check niba x=5 ari correct kuri 4x=20.,check_answer,written,train
+Can you check whether my definition of photosynthesis is correct?,check_answer,written,train
+Check my work: 5/10 simplifies to 1/2.,check_answer,written,train
+"my answer is B, correct?",check_answer,written,train
+Reba answer yanjye: 3/4 + 1/2 = 5/4.,check_answer,written,train
+"I got 28cm kuri perimeter, ni byo?",check_answer,written,train
+Explain the difference between a simile and a metaphor.,explain_concept,written,train
+Teach me the basics of computer algorithms.,explain_concept,written,test
+"Sinumva algebra, wayinsobanurira buhoro?",explain_concept,written,train
+Please explain Newton's first law with an everyday example.,explain_concept,written,test
+Help me understand the water cycle.,explain_concept,written,test
+Explain algebra in simple words.,explain_concept,written,train
+I keep forgetting what I study. What learning strategy can I try?,learning_guidance,written,train
+What should I study next after fractions?,learning_guidance,written,train
+What should I practise if I often make mistakes with fractions?,learning_guidance,written,train
+Mfasha gukora gahunda yo gusubiramo maths buri cyumweru.,learning_guidance,written,train
+What should I revise first for S2 maths?,learning_guidance,written,train
+How can I improve my performance in algebra?,learning_guidance,written,train
+ndashaka gutumiza pizza,out_of_scope,written,train
+Help me apply for a driving licence.,out_of_scope,written,train
+Can you diagnose my headache?,out_of_scope,written,train
+Tell me amakuru ya celebrities.,out_of_scope,written,train
+Mbwira score y'umukino wa Arsenal.,out_of_scope,written,train
+Write a romantic message to my girlfriend.,out_of_scope,written,test
+Ndashaka homework ya area na perimeter.,practice_request,written,train
+Nkoreye quiz ntoya kuri geometry.,practice_request,written,test
+Give me a beginner exercise about adjectives.,practice_request,written,train
+Create ten questions about geometry for S2.,practice_request,written,test
+Can u give me 10 maths questions?,practice_request,written,train
+"Give me examples to try on probability, without answers first.",practice_request,written,test
+Find x muri 2x = 18.,solve_problem,written,train
+Please solve 25% of 240.,solve_problem,written,test
+Work out 2.5 multiplied by 0.4.,solve_problem,written,train
+mbwira uko bakemura 3x+2=20,solve_problem,written,test
+Find the value of y when y/3 = 8.,solve_problem,written,train
+Uko nabona area ya rectangle ifite 8cm na 5cm?,solve_problem,written,train

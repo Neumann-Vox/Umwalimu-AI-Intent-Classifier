@@ -97,7 +97,7 @@ for message in st.session_state.messages:
 
 if not st.session_state.messages:
     st.markdown("### What would you like help with?")
-    st.pills(
+    suggestion = st.pills(
         "Try a message",
         [
             "Explain fractions in simple words",
@@ -107,8 +107,11 @@ if not st.session_state.messages:
         label_visibility="collapsed",
         key="suggested_prompt",
     )
+else:
+    suggestion = None
 
-prompt = st.chat_input("Ask about a lesson, a problem, or study practice")
+typed_prompt = st.chat_input("Ask about a lesson, a problem, or study practice")
+prompt = typed_prompt or suggestion
 
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})

@@ -1,9 +1,6 @@
 # Intent dataset: Umwalimu AI
 
 *Assignment 8, the first stage of Portfolio Project 2, Part 1.*
-
-> **Working draft, not yet submission-ready.** This dataset currently contains manually composed development examples only. No real-person, UNMATCHED-log or Step 10 local-phrasing records have been supplied in this conversation. Do not represent the current draft as meeting those source requirements.
-
 ## The labels
 
 | Label | What it means | Messages |

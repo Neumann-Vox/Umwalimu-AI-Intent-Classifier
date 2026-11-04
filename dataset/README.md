@@ -52,29 +52,9 @@ Both models are fitted using training data only:
 
 The word model was selected because both candidates tied on accuracy, while the word model achieved the higher macro F1. The character vectorizer is capped at 768 features to keep its comparison compact. Selection uses macro F1, with accuracy as the tie-breaker. These results are preliminary because the test set is small.
 
-### Per-intent metrics for the selected character model
-| Intent | Precision | Recall | F1 | Support |
-|---|---:|---:|---:|---:|
-| `check_answer` | 0.857 | 1.000 | 0.923 | 6 |
-| `explain_concept` | 0.750 | 0.500 | 0.600 | 6 |
-| `learning_guidance` | 0.714 | 0.833 | 0.769 | 6 |
-| `out_of_scope` | 0.714 | 0.833 | 0.769 | 6 |
-| `practice_request` | 0.857 | 1.000 | 0.923 | 6 |
-| `solve_problem` | 0.800 | 0.667 | 0.727 | 6 |
+### Per-intent results
 
-The weakest intent is `explain_concept` (F1 0.600). More genuine, varied explanation requests are needed.
-
-### Confusion matrix
-Rows are actual labels; columns are predicted labels in this order: `check_answer`, `explain_concept`, `learning_guidance`, `out_of_scope`, `practice_request`, `solve_problem`.
-
-| Actual / predicted | check_answer | explain_concept | learning_guidance | out_of_scope | practice_request | solve_problem |
-|---|---:|---:|---:|---:|---:|---:|
-| check_answer | 6 | 0 | 0 | 0 | 0 | 0 |
-| explain_concept | 0 | 3 | 1 | 0 | 0 | 2 |
-| learning_guidance | 0 | 0 | 4 | 2 | 0 | 0 |
-| out_of_scope | 0 | 0 | 1 | 5 | 0 | 0 |
-| practice_request | 0 | 0 | 0 | 0 | 6 | 0 |
-| solve_problem | 2 | 0 | 0 | 0 | 0 | 4 |
+The notebook generates the classification report and confusion matrix from the selected model when executed. Use those notebook outputs as the source for per-intent metrics; they are not duplicated here, so the README cannot drift from the model actually selected.
 
 ## Confidence threshold
 The selected threshold is **0.25**. Compared with threshold 0.20, it reduces confident wrong predictions from 6 to 3, with 5 fewer correct predictions (28 to 23), 8 more missed requests (2 to 10), and a 41.7% fallback rate (15 of 36). This is a compromise between avoiding incorrect intent routing and retaining useful coverage; it should be re-evaluated on a larger genuine dataset.

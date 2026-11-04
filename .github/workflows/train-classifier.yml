@@ -1,0 +1,35 @@
+name: Build Umwalimu AI intent classifier
+on:
+  push:
+    branches:
+      - feature/umwalimu-ai-intent-classifier
+permissions:
+  contents: write
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/umwalimu-ai-intent-classifier
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas scikit-learn joblib matplotlib jupyter nbconvert
+      - name: Execute notebook
+        run: |
+          jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=300 --output /tmp/umwalimu-executed.ipynb dataset/Portfolio_Project_2_Part_1_Classifier.ipynb
+      - name: Commit generated dataset split and model
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dataset/intents.csv dataset/intent_classifier.joblib
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "Train and save Umwalimu AI intent classifier"
+          git push origin HEAD:feature/umwalimu-ai-intent-classifier

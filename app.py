@@ -45,8 +45,8 @@ INTENT_RESPONSES = {
 
 
 def quick_response(message: str) -> str | None:
-    normalized = re.sub(r"[^\\w\\s]", "", message.casefold())
-    normalized = re.sub(r"\\s+", " ", normalized).strip()
+    normalized = re.sub(r"[^\w\s]", "", message.casefold())
+    normalized = re.sub(r"\s+", " ", normalized).strip()
 
     greetings = {
         "hi", "hello", "hey", "hello there", "hi there", "hey there",

@@ -1,6 +1,24 @@
 # Intent dataset: Umwalimu AI
 
 *Assignment 8, the first stage of Portfolio Project 2, Part 1.*
+
+## Try the chat interface
+
+The Streamlit interface lets you enter a message and see the classifier’s predicted learning intent and confidence. This version is a classifier demo: it does not generate explanations, solve problems, create exercises, or check answers yet.
+
+### Run locally on Windows
+
+```powershell
+git clone https://github.com/Neumann-Vox/Umwalimu-AI-Intent-Classifier.git
+cd Umwalimu-AI-Intent-Classifier
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+streamlit run app.py
+```
+
+Open the local address Streamlit prints (usually `http://localhost:8501`). The interface uses the committed model at `dataset/intent_classifier.joblib`.
+
 ## The labels
 
 | Label | What it means | Messages |

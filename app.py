@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 import joblib
 import streamlit as st
@@ -41,6 +42,33 @@ INTENT_RESPONSES = {
         "problems, practice, answer checking, and study guidance."
     ),
 }
+
+
+def quick_response(message: str) -> str | None:
+    normalized = re.sub(r"[^\\w\\s]", "", message.casefold())
+    normalized = re.sub(r"\\s+", " ", normalized).strip()
+
+    greetings = {
+        "hi", "hello", "hey", "hello there", "hi there", "hey there",
+        "good morning", "good afternoon", "good evening", "how are you",
+    }
+    thanks = {"thanks", "thank you", "thanks a lot", "thank you very much", "thx", "ty"}
+    please = {"please", "pls", "plz"}
+
+    if normalized in greetings:
+        return (
+            "Hello! What would you like to learn today? You can ask me to explain a "
+            "concept, work through a problem, suggest practice, check an answer, or "
+            "help plan your studies."
+        )
+    if normalized in thanks:
+        return "You’re welcome! What learning topic would you like help with?"
+    if normalized in please:
+        return (
+            "Of course. What would you like help with? Share a topic or question, "
+            "and I’ll identify the kind of learning support you need."
+        )
+    return None
 
 
 @st.cache_resource(show_spinner="Loading Umwalimu AI…")
@@ -116,24 +144,28 @@ prompt = typed_prompt or suggestion
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    probabilities = classifier.predict_proba([prompt])[0]
-    top_index = int(probabilities.argmax())
-    intent = str(classifier.classes_[top_index])
-    confidence = float(probabilities[top_index])
+    response = quick_response(prompt)
+    detected_intent = None
+    confidence = None
 
-    if confidence < CONFIDENCE_THRESHOLD:
-        response = (
-            "I’m not sure which learning request this is. Try asking for a concept "
-            "explanation, a worked problem, practice questions, answer checking, or "
-            "study guidance."
-        )
-        detected_intent = None
-    else:
-        response = INTENT_RESPONSES.get(
-            intent,
-            "I recognized your request, but this demo does not have a response for that intent yet.",
-        )
-        detected_intent = intent
+    if response is None:
+        probabilities = classifier.predict_proba([prompt])[0]
+        top_index = int(probabilities.argmax())
+        intent = str(classifier.classes_[top_index])
+        confidence = float(probabilities[top_index])
+
+        if confidence < CONFIDENCE_THRESHOLD:
+            response = (
+                "I’m not sure which learning request this is. Try asking for a concept "
+                "explanation, a worked problem, practice questions, answer checking, or "
+                "study guidance."
+            )
+        else:
+            response = INTENT_RESPONSES.get(
+                intent,
+                "I recognized your request, but this demo does not have a response for that intent yet.",
+            )
+            detected_intent = intent
 
     st.session_state.messages.append(
         {

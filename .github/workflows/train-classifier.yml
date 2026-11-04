@@ -21,7 +21,7 @@ jobs:
           python -m pip install pandas scikit-learn joblib matplotlib jupyter nbconvert
       - name: Execute notebook
         run: |
-          jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=300 --output /tmp/umwalimu-executed.ipynb dataset/Portfolio_Project_2_Part_1_Classifier.ipynb
+          jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=300 --ExecutePreprocessor.cwd=. --output /tmp/umwalimu-executed.ipynb dataset/Portfolio_Project_2_Part_1_Classifier.ipynb
       - name: Commit generated dataset split and model
         run: |
           git config user.name "github-actions[bot]"

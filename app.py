@@ -11,12 +11,14 @@ INTENT_RULES = {
     "share_class": ("i am in", "i'm in", "im in", "my class is", "i study in"),
     "ask_subject": ("which subject", "what subject", "subjects do you study"),
     "share_subject": ("i study", "i am studying", "i'm studying", "we are learning", "we're learning"),
-    "topic_chat": ("learning about", "studying", "the topic is", "we learned", "we are learning"),
+    "ask_topic": ("what topic", "which topic", "what are we learning", "what are we covering"),
+    "topic_chat": ("learning about", "studying", "the topic is", "we learned", "we are learning", "we are covering"),
     "homework_chat": ("homework", "assignment", "schoolwork", "classwork"),
     "exam_chat": ("exam", "test", "quiz", "revision"),
     "timetable_chat": ("timetable", "schedule", "what time", "when does school", "school hours"),
     "wellbeing": ("sad", "stressed", "worried", "anxious", "nervous", "tired", "lonely", "upset", "overwhelmed"),
     "school_day": ("how was school", "my school day", "school today", "my teacher", "my classmates"),
+    "school_event": ("school club", "sports day", "school trip", "school event", "school lunch", "school break", "assembly"),
     "gratitude": ("thanks", "thank you", "thx", "appreciate it"),
     "farewell": ("bye", "goodbye", "see you", "good night"),
 }
@@ -56,6 +58,8 @@ def detect_intent(message: str) -> str:
         return "share_class"
     if find_subject(message):
         return "share_subject"
+    if find_topic(message):
+        return "topic_chat"
     for intent, phrases in INTENT_RULES.items():
         if contains_phrase(normalized, phrases):
             return intent
@@ -109,15 +113,21 @@ def reply(intent: str, message: str) -> str:
     if intent == "ask_student_class":
         return "I’m a chatbot, so I don’t attend a class. I’d like to hear about yours! Which class are you in?"
     if intent == "share_class":
-        return f"Nice! I’ll remember {student_class} during this chat. What subject are you studying?"
+        if student_class:
+            return f"Nice! I’ll remember {student_class} during this chat. What subject are you studying?"
+        return "What class are you in? You can tell me a class such as S1, S2, or S3."
     if intent == "ask_subject":
         if subject:
             return f"You said you’re studying {subject}. What are you learning in that subject?"
         return f"What subject are you studying in {student_class or 'your class'}? You can say mathematics, science, English, or another subject."
     if intent == "share_subject":
+        if not subject:
+            return "Which subject are you studying? You can tell me mathematics, science, English, or another class subject."
         if student_class:
             return f"Got it — {subject} in {student_class}. What topic are you learning about?"
         return f"Great, let’s chat about {subject}. Which class are you in?"
+    if intent == "ask_topic":
+        return f"What topic are you learning in {subject or 'your class'}?"
     if intent == "topic_chat":
         topic = find_topic(message)
         if topic:
@@ -126,6 +136,8 @@ def reply(intent: str, message: str) -> str:
     if intent == "homework_chat":
         return f"Let’s talk about your homework. Which subject is it for{f' in {student_class}' if student_class else ''}?"
     if intent == "exam_chat":
+        if any(word in normalized for word in ("passed", "finished", "results", "completed")):
+            return "That’s a big moment! How do you feel about how it went?"
         return "Exams can feel like a lot. Which subject are you preparing for, and when is the exam?"
     if intent == "timetable_chat":
         return "I don’t know your school’s timetable. What time does your class start, or what part of your school day are you asking about?"
@@ -133,6 +145,8 @@ def reply(intent: str, message: str) -> str:
         return "I’m sorry you’re feeling that way. Do you want to tell me what happened at school? If you feel unsafe or overwhelmed, please talk with a trusted adult or teacher."
     if intent == "school_day":
         return "How did your school day go? What was one thing you liked or found difficult?"
+    if intent == "school_event":
+        return "That sounds like part of school life. Tell me a little more — are you looking forward to it?"
     if intent == "gratitude":
         return "You’re welcome! What else would you like to chat about at school?"
     if intent == "farewell":

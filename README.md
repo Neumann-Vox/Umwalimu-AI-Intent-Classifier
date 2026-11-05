@@ -1,44 +1,37 @@
-# Umwalimu AI — Student Chatbot
+# Umwalimu AI — Student Conversation Chatbot
 
-Umwalimu AI is a small school conversation chatbot built for the Assignment 8 intent-classification project. It greets students, asks what class and subject they are studying, remembers those answers during the chat, and asks friendly follow-up questions.
+Umwalimu AI is a simple rule-based chatbot for student conversations. It remembers a student's class and subject during the chat and responds to common school-related messages.
 
-The saved machine-learning classifier identifies broad message intents. Simple conversation rules produce the replies. The chatbot does not solve problems or generate unrestricted answers.
+## Conversation intents
+
+The chatbot recognizes 18 conversation intents: greetings, bot identity, capabilities, asking or sharing a class, asking or sharing a subject, asking about a topic, discussing a topic, homework, exams, timetable, wellbeing, school day, school events, thanks, and goodbye. If a message does not match, it asks a friendly follow-up.
+
+This version does not solve exercises, generate quizzes, or mark answers. Replies come from app.py; no AI service or API key is needed.
 
 ## Run on Windows
 
 Open Command Prompt and run:
 
-```cmd
-git clone -b feature/streamlit-chat-interface-ready https://github.com/Neumann-Vox/Umwalimu-AI-Intent-Classifier.git
-cd Umwalimu-AI-Intent-Classifier
-py -3.11 -m venv .venv
-.venv\Scripts\activate.bat
-python -m pip install -r requirements.txt
-streamlit run app.py
-```
+    git clone -b feature/student-conversation-intents https://github.com/Neumann-Vox/Umwalimu-AI-Intent-Classifier.git
+    cd Umwalimu-AI-Intent-Classifier
+    py -3.11 -m venv .venv
+    .venv\Scripts\activate.bat
+    python -m pip install -r requirements.txt
+    streamlit run app.py
 
 Open the local address Streamlit prints, usually http://localhost:8501.
 
-## Try a conversation
+## Example conversation
 
 - Student: “Hello”
 - Umwalimu AI: “Which class are you in?”
 - Student: “I’m in S2”
-- Umwalimu AI: “What subject are you learning?”
+- Umwalimu AI: “What subject are you studying?”
 - Student: “Mathematics”
-- Umwalimu AI: “What topic is your class learning about?”
+- Umwalimu AI: “What topic are you learning about?”
 
-It also responds to thanks, goodbyes, and common school-related requests. Use **Start a new chat** to clear the conversation and saved class/subject.
+The chatbot remembers the class and subject until **Start a new chat** is selected.
 
-## Assignment files
+## Assignment materials
 
-- `dataset/Portfolio_Project_2_Part_1_Classifier.ipynb`: dataset audit, baseline, model training, evaluation, and saved classifier.
-- `dataset/intents.csv`: labelled and split messages used by the notebook.
-- `dataset/intent_classifier.joblib`: trained classifier used by the chat interface.
-- `dataset/README.md`: model results, data provenance, limitations, and outstanding assignment evidence.
-
-The notebook and dataset are retained because they are the core classifier assignment work. The dataset README records evidence that still needs to be supplied before claiming the assignment is fully complete, including genuine participant messages and original project materials. Do not present invented messages as real participant data.
-
-## Intent labels
-
-`explain_concept`, `solve_problem`, `practice_request`, `check_answer`, `learning_guidance`, and `out_of_scope`.
+The classifier assignment work remains under dataset/: the notebook, original labeled dataset, trained model, and technical report. The live chatbot uses its own conversational rules. The technical report explains the classifier dataset, results, and remaining source-evidence requirements.

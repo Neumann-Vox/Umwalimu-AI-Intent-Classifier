@@ -54,6 +54,9 @@ def find_subject(message: str) -> str | None:
 def quick_reply(message: str) -> str | None:
     normalized = re.sub(r"[^\w\s']", "", clean(message))
     if normalized in {"hi", "hello", "hey", "good morning", "good afternoon", "good evening"}:
+        student_class = st.session_state.get("student_class")
+        if student_class:
+            return f"Hello again, {student_class} student! What subject are you learning today?"
         return "Hello! I’m Umwalimu AI. Which class are you in? You can say something like “I’m in S2.”"
     if normalized in {"thanks", "thank you", "thank you so much", "thx"}:
         return "You’re welcome! What subject are you learning today?"
@@ -85,8 +88,13 @@ def make_reply(message: str, detected_intent: str | None) -> str:
 
     subject = st.session_state.subject
     school_context = f"your {st.session_state.student_class} {subject} class"
+    topic = next((name for name in ("fractions", "algebra", "geometry", "photosynthesis", "decimals", "equations", "grammar", "probability", "area", "perimeter") if name in lowered), None)
+    if topic:
+        return f"{topic.title()} — interesting! What part of {topic} is your class discussing?"
+    if any(phrase in lowered for phrase in ("what topic", "which topic", "what are we learning")):
+        return f"What topic in {subject} is your class learning about?"
     if detected_intent == "learning_guidance":
-        return f"What would you like to work toward in {school_context} Tell me your study goal, and we can talk about a simple next step."
+        return f"What would you like to work toward in {school_context}? Tell me your study goal, and we can talk about a simple next step."
     if detected_intent == "out_of_scope":
         return f"I’m here to chat about school and learning. What’s happening in {school_context}?"
     if detected_intent:

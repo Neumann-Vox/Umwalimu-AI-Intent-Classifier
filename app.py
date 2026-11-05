@@ -113,6 +113,8 @@ def reply(intent: str, message: str) -> str:
     if intent == "ask_student_class":
         return "I’m a chatbot, so I don’t attend a class. I’d like to hear about yours! Which class are you in?"
     if intent == "share_class":
+        if student_class and subject:
+            return f"Nice! I’ll remember {student_class} and {subject} during this chat. What topic are you learning?"
         if student_class:
             return f"Nice! I’ll remember {student_class} during this chat. What subject are you studying?"
         return "What class are you in? You can tell me a class such as S1, S2, or S3."

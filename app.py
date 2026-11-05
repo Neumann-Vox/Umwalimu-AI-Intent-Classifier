@@ -86,7 +86,7 @@ def make_reply(message: str, detected_intent: str | None) -> str:
     subject = st.session_state.subject
     school_context = f"your {st.session_state.student_class} {subject} class"
     if detected_intent == "learning_guidance":
-        return f"What would you like to work toward in {school_context?} Tell me your study goal, and we can talk about a simple next step."
+        return f"What would you like to work toward in {school_context} Tell me your study goal, and we can talk about a simple next step."
     if detected_intent == "out_of_scope":
         return f"I’m here to chat about school and learning. What’s happening in {school_context}?"
     if detected_intent:

@@ -4,7 +4,7 @@
 
 ## Try the chat interface
 
-The Streamlit interface lets you enter a message and see the classifier’s predicted learning intent and confidence. This version is a classifier demo: it does not generate explanations, solve problems, create exercises, or check answers yet.
+The Streamlit interface lets you type messages and receive replies. A trained machine-learning intent classifier identifies the request type, then a rule-based response layer handles greetings, selected concept explanations, short arithmetic calculations, practice questions, answer checks, and study guidance. Replies are limited to built-in topics and rules; this is not a generative AI tutor.
 
 ### Run locally on Windows
 

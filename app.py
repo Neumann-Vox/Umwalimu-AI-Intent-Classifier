@@ -1,203 +1,177 @@
 import re
-
 import streamlit as st
 
-INTENT_RULES = {
-    "greeting": ("hello", "hi", "hey", "good morning", "good afternoon", "good evening"),
-    "bot_identity": ("who are you", "what is your name", "your name"),
-    "capabilities": ("what can you do", "what can i ask", "how can you help"),
-    "class_question": ("which class am i in", "what class am i in", "what is my class"),
-    "ask_student_class": ("what class are you in", "which class are you in", "what grade are you in"),
-    "share_class": ("i am in", "i'm in", "im in", "my class is", "i study in"),
-    "ask_subject": ("which subject", "what subject", "subjects do you study"),
-    "share_subject": ("i study", "i am studying", "i'm studying", "we are learning", "we're learning"),
-    "ask_topic": ("what topic", "which topic", "what are we learning", "what are we covering"),
-    "topic_chat": ("learning about", "studying", "the topic is", "we learned", "we are learning", "we are covering"),
-    "homework_chat": ("homework", "assignment", "schoolwork", "classwork"),
-    "exam_chat": ("exam", "test", "quiz", "revision"),
-    "timetable_chat": ("timetable", "schedule", "what time", "when does school", "school hours"),
-    "wellbeing": ("sad", "stressed", "worried", "anxious", "nervous", "tired", "lonely", "upset", "overwhelmed"),
-    "school_day": ("how was school", "my school day", "school today", "my teacher", "my classmates"),
-    "school_event": ("school club", "sports day", "school trip", "school event", "school lunch", "school break", "assembly"),
-    "gratitude": ("thanks", "thank you", "thx", "appreciate it"),
-    "farewell": ("bye", "goodbye", "see you", "good night"),
+st.set_page_config(page_title="Umwalimu AI | New Student Guide", page_icon="🎓", layout="centered")
+
+WELCOME = """Hello! Welcome to **Umwalimu AI – New Student Guide**.
+
+I can guide you through your first day, registration, orientation, school facilities, basic rules, and student support.
+
+I provide general guidance. Your school’s administration remains the official source for exact rooms, dates, fees, opening hours, and policies."""
+
+ANSWERS = {
+    "first_day_guidance": """Welcome to your new school!
+
+**A good place to start is the reception or administration/admissions office.**
+
+Here is a simple first-day checklist:
+1. Introduce yourself and confirm that your admission/registration is complete.
+2. Ask how to receive your student ID.
+3. Request your official timetable.
+4. Confirm your class, classroom, and department.
+5. Ask whether there is an orientation session or a student guide.
+
+If your school has a designated orientation desk, follow that instruction first. I do not have your school's verified office map, so please confirm the exact location with reception.""",
+    "registration_help": """For registration, contact your school's **admissions or administration office**.
+
+Ask them to confirm:
+1. Which documents you must submit.
+2. Whether any forms are still incomplete.
+3. The registration deadline.
+4. How to confirm your student status.
+5. Where and when to collect your student ID.
+
+Requirements, fees, and deadlines differ by institution. Please use the official school instructions rather than relying on an unverified list.""",
+    "student_id_help": """To get your student ID, ask the **administration or student affairs office**.
+
+They can confirm the required documents, collection date, and whether a fee applies. Do not share passwords, PINs, or sensitive identity numbers in this chat.""",
+    "facility_location": """I can help you identify the right place, but I do not yet have a verified map of your school.
+
+- **Library:** Ask reception or a teacher for the library location and opening hours.
+- **Classroom/laboratory:** Check your timetable and ask your department or class representative.
+- **Toilets/cafeteria:** Ask reception or a nearby staff member.
+- **Student affairs/health office:** Ask administration to direct you.
+
+Tell me the name of the facility and your school, and I can help you prepare the question to ask. I will not guess room numbers or locations.""",
+    "school_rules": """Every school has its own official rules. Please request the student handbook or ask administration for the current policy.
+
+Common areas to check include:
+1. Attendance and punctuality.
+2. Student conduct and respect.
+3. Classroom and laboratory safety.
+4. Use of phones and school equipment.
+5. Academic honesty.
+6. Dress code, if your school has one.
+
+These are topics to verify, not a statement of your school's exact rules.""",
+    "orientation_info": """Orientation helps new students understand how the school works and where to get support.
+
+Ask administration or student affairs:
+1. When the next orientation takes place.
+2. Where students should meet.
+3. Whether attendance is required.
+4. Whether you should bring any documents.
+5. Who your student mentor or class representative is.
+
+I do not have a verified orientation date or venue for your institution.""",
+    "student_support": """You do not have to manage a school problem alone.
+
+- For academic questions, speak with your teacher, tutor, or department.
+- For registration or administrative issues, contact administration.
+- For personal concerns, ask student affairs or a trusted school staff member.
+- If you are in immediate danger, being threatened, or need urgent medical help, contact a responsible adult or the school's emergency support immediately.
+
+If you feel comfortable, tell me generally what kind of help you need. Do not share private passwords or sensitive personal information.""",
+    "general_school_help": """I can help with new-student questions about:
+- What to do on your first day
+- Registration and student ID
+- Orientation
+- School facilities
+- School rules
+- Finding the right student-support office
+
+Try one of the example questions shown on the page.""",
+    "out_of_scope": """I am currently a **New Student Guide**, not a general-purpose chatbot.
+
+Please ask about first-day guidance, registration, student ID, orientation, school facilities, school rules, or student support."""
 }
 
-SUBJECTS = {
-    "mathematics": ("mathematics", "math", "maths"),
-    "science": ("science",),
-    "biology": ("biology",),
-    "physics": ("physics",),
-    "chemistry": ("chemistry",),
-    "english": ("english",),
-    "history": ("history",),
-    "geography": ("geography",),
-    "computer studies": ("computer studies", "computing", "computer basics"),
-    "social studies": ("social studies",),
-    "kinyarwanda": ("kinyarwanda",),
-}
+RULES = [
+    ("student_support", ["bullying", "bullied", "harass", "threat", "unsafe", "abuse", "hurt myself", "emergency", "medical emergency", "someone is hurting"]),
+    ("first_day_guidance", ["where should i go first", "where do i go first", "first day", "new student", "i am new", "im new", "just joined", "new here", "start at school"]),
+    ("registration_help", ["registration", "register", "admission", "admissions", "enrol", "enrollment", "enrolment", "documents", "fees", "tuition"]),
+    ("student_id_help", ["student id", "school id", "identity card", "id card", "student card"]),
+    ("facility_location", ["where is", "where can i find", "location of", "library", "laboratory", "lab", "classroom", "toilet", "washroom", "cafeteria", "canteen", "computer room", "office"]),
+    ("school_rules", ["school rules", "rules", "regulations", "dress code", "uniform", "attendance", "punctuality", "phone policy", "discipline"]),
+    ("orientation_info", ["orientation", "induction", "welcome session", "orientation date", "orientation time"]),
+    ("general_school_help", ["what can you do", "how can you help", "what can i ask", "help me"]),
+]
 
-TOPICS = (
-    "fractions", "algebra", "geometry", "photosynthesis", "decimals",
-    "equations", "grammar", "probability", "area", "perimeter",
-    "water cycle", "angles",
-)
+def normalize(text):
+    return re.sub(r"\s+", " ", text.casefold()).strip()
 
-
-def normalize(message: str) -> str:
-    return re.sub(r"\s+", " ", message.casefold()).strip()
-
-
-def contains_phrase(message: str, phrases) -> bool:
-    return any(re.search(rf"\b{re.escape(phrase)}\b", message) for phrase in phrases)
-
-
-def detect_intent(message: str) -> str:
-    normalized = normalize(message)
-    if find_class(message):
-        return "share_class"
-    if find_subject(message):
-        return "share_subject"
-    if find_topic(message):
-        return "topic_chat"
-    for intent, phrases in INTENT_RULES.items():
-        if contains_phrase(normalized, phrases):
+def detect_intent(message):
+    text = normalize(message)
+    for intent, phrases in RULES:
+        if any(phrase in text for phrase in phrases):
             return intent
-    return "general_chat"
+    if text in {"hello", "hi", "hey", "good morning", "good afternoon", "good evening", "muraho", "mwaramutse"}:
+        return "greeting"
+    if any(word in text for word in ["thank you", "thanks", "murakoze"]):
+        return "gratitude"
+    if any(word in text for word in ["bye", "goodbye", "see you"]):
+        return "farewell"
+    return "out_of_scope"
 
-
-def find_class(message: str) -> str | None:
-    match = re.search(
-        r"\b(?:i am in|i'm in|im in|my class is|i study in|class|grade)\s*(s[1-6]|[1-9]|10|11|12)\b",
-        message,
-        re.I,
-    )
-    if not match:
-        match = re.search(r"\b(s[1-6])\b", message, re.I)
-    if not match:
-        return None
-    value = match.group(1).upper()
-    return value if value.startswith("S") else f"Grade {value}"
-
-
-def find_subject(message: str) -> str | None:
-    normalized = normalize(message)
-    for subject, names in SUBJECTS.items():
-        if contains_phrase(normalized, names):
-            return subject.title()
-    return None
-
-
-def find_topic(message: str) -> str | None:
-    normalized = normalize(message)
-    return next((topic for topic in TOPICS if contains_phrase(normalized, (topic,))), None)
-
-
-def reply(intent: str, message: str) -> str:
-    normalized = normalize(message)
-    student_class = st.session_state.student_class
-    subject = st.session_state.subject
-
+def answer(message):
+    intent = detect_intent(message)
     if intent == "greeting":
-        if student_class:
-            return f"Hello again, {student_class} student! What subject are you learning today?"
-        return "Hello! I’m Umwalimu AI. Which class are you in? You can say “I’m in S2.”"
-    if intent == "bot_identity":
-        return "I’m Umwalimu AI, a friendly school chat companion. Which class are you in?"
-    if intent == "capabilities":
-        return "I can chat about your class, subjects, homework, exams, timetable, and how school is going. Tell me your class to get started."
-    if intent == "class_question":
-        if student_class:
-            return f"You told me you’re in {student_class}. Did I remember correctly?"
-        return "You haven’t told me your class yet. Which class are you in?"
-    if intent == "ask_student_class":
-        return "I’m a chatbot, so I don’t attend a class. I’d like to hear about yours! Which class are you in?"
-    if intent == "share_class":
-        if student_class and subject:
-            return f"Nice! I’ll remember {student_class} and {subject} during this chat. What topic are you learning?"
-        if student_class:
-            return f"Nice! I’ll remember {student_class} during this chat. What subject are you studying?"
-        return "What class are you in? You can tell me a class such as S1, S2, or S3."
-    if intent == "ask_subject":
-        if subject:
-            return f"You said you’re studying {subject}. What are you learning in that subject?"
-        return f"What subject are you studying in {student_class or 'your class'}? You can say mathematics, science, English, or another subject."
-    if intent == "share_subject":
-        if not subject:
-            return "Which subject are you studying? You can tell me mathematics, science, English, or another class subject."
-        if student_class:
-            return f"Got it — {subject} in {student_class}. What topic are you learning about?"
-        return f"Great, let’s chat about {subject}. Which class are you in?"
-    if intent == "ask_topic":
-        return f"What topic are you learning in {subject or 'your class'}?"
-    if intent == "topic_chat":
-        topic = find_topic(message)
-        if topic:
-            return f"{topic.title()} — interesting! What part of it is your class discussing?"
-        return f"What topic are you learning in {subject or 'class'}?"
-    if intent == "homework_chat":
-        return f"Let’s talk about your homework. Which subject is it for{f' in {student_class}' if student_class else ''}?"
-    if intent == "exam_chat":
-        if any(word in normalized for word in ("passed", "finished", "results", "completed")):
-            return "That’s a big moment! How do you feel about how it went?"
-        return "Exams can feel like a lot. Which subject are you preparing for, and when is the exam?"
-    if intent == "timetable_chat":
-        return "I don’t know your school’s timetable. What time does your class start, or what part of your school day are you asking about?"
-    if intent == "wellbeing":
-        return "I’m sorry you’re feeling that way. Do you want to tell me what happened at school? If you feel unsafe or overwhelmed, please talk with a trusted adult or teacher."
-    if intent == "school_day":
-        return "How did your school day go? What was one thing you liked or found difficult?"
-    if intent == "school_event":
-        return "That sounds like part of school life. Tell me a little more — are you looking forward to it?"
+        return ("Hello! Welcome to Umwalimu AI. Are you a new student?\n\n"
+                "I can help you with your first day, registration, student ID, orientation, "
+                "school facilities, school rules, and student support.\n\n"
+                "**What would you like help with first?**")
     if intent == "gratitude":
-        return "You’re welcome! What else would you like to chat about at school?"
+        return "You’re welcome! I’m happy to help. What would you like to know about your school?"
     if intent == "farewell":
-        return "Goodbye! I enjoyed chatting with you. Good luck at school!"
-    if student_class is None:
-        return "I’m here to chat about student life and school. First, which class are you in?"
-    if subject is None:
-        return f"Thanks, {student_class}! What subject are you learning today?"
-    return f"Got it — {subject} in {student_class}. Tell me what’s happening in class."
+        return "Goodbye! I wish you a successful and enjoyable experience at your new school."
+    return ANSWERS[intent]
 
+st.title("🎓 Umwalimu AI")
+st.subheader("New Student Guide")
+st.caption("Simple, reliable guidance to help you get started at school.")
 
-st.set_page_config(page_title="Umwalimu AI", page_icon=":material/school:", layout="centered")
-st.title("Umwalimu AI")
-st.caption("A friendly school conversation")
+with st.expander("Example questions — select one to try", expanded=True):
+    examples = [
+        "Hello",
+        "I am new. Where should I go first?",
+        "How do I complete my registration?",
+        "How can I get my student ID?",
+        "Where is the library?",
+        "What are the school rules?",
+        "When is student orientation?",
+        "I need help with a personal problem.",
+    ]
+    for question in examples:
+        if st.button(question, key="example_" + str(examples.index(question)), use_container_width=True):
+            st.session_state.pending_question = question
 
 with st.sidebar:
-    st.subheader("Your chat")
-    st.write("I can chat about your class, subjects, homework, exams, timetable, and school day.")
-    st.caption("I remember your class and subject until you start a new chat.")
-    if st.button("Start a new chat", icon=":material/chat:"):
+    st.markdown("### About this guide")
+    st.write("This version answers common new-student questions using fixed, reviewed response templates.")
+    st.info("Exact school-specific locations, dates, fees, and policies must be confirmed by your institution.")
+    if st.button("Start a new chat", use_container_width=True):
         st.session_state.messages = []
-        st.session_state.student_class = None
-        st.session_state.subject = None
+        st.session_state.pending_question = ""
         st.rerun()
 
 st.session_state.setdefault("messages", [])
-st.session_state.setdefault("student_class", None)
-st.session_state.setdefault("subject", None)
+st.session_state.setdefault("pending_question", "")
 
 for item in st.session_state.messages:
     with st.chat_message(item["role"]):
         st.markdown(item["content"])
 
-if not st.session_state.messages:
-    st.markdown("### Say hello to start")
-    st.caption("Try: “Hello” · “I’m in S2” · “I study mathematics” · “I have exams soon”")
+prompt = st.chat_input("Ask a question about starting at school…")
+if st.session_state.pending_question:
+    prompt = st.session_state.pending_question
+    st.session_state.pending_question = ""
 
-prompt = st.chat_input("Say hello or tell me what is happening at school")
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
-
-    student_class = find_class(prompt)
-    subject = find_subject(prompt)
-    if student_class:
-        st.session_state.student_class = student_class
-    if subject:
-        st.session_state.subject = subject
-
-    intent = detect_intent(prompt)
-    response = reply(intent, prompt)
+    response = answer(prompt)
     st.session_state.messages.append({"role": "assistant", "content": response})
     st.rerun()
+
+if not st.session_state.messages:
+    st.markdown("### Start here")
+    st.write("Type **Hello** to begin. I will welcome you and show you what you can ask next.")

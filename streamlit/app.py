@@ -47,17 +47,38 @@ FAQ = [
     ("Fractions",
      "A fraction represents part of a whole. The numerator is the top number and tells how "
      "many parts are being considered. The denominator is the bottom number and tells how "
-     "many equal parts make the whole."),
+     "many equal parts make the whole. For example, 3/4 means three out of four equal parts."),
     ("The water cycle",
-     "The water cycle describes the continuous movement of water. Important processes include "
-     "evaporation, condensation, precipitation and collection."),
+     "The water cycle describes the continuous movement of water. Evaporation changes liquid "
+     "water into water vapour, condensation forms clouds, precipitation brings water back as "
+     "rain or other forms, and collection gathers water in rivers, lakes and oceans."),
     ("Area and perimeter",
      "Area measures the surface inside a two-dimensional shape and is expressed in square "
      "units. Perimeter is the total distance around the outside of a shape and is expressed "
-     "in linear units."),
+     "in linear units. For a rectangle, area = length × width and perimeter = 2 × (length + width)."),
     ("Variables",
      "A variable is a symbol, often a letter such as x, that represents a number whose value "
-     "may be unknown or may change."),
+     "may be unknown or may change. In 2x + 5 = 15, x is the variable."),
+    ("Solving a simple equation",
+     "To solve 2x + 5 = 15, subtract 5 from both sides: 2x = 10. Divide both sides by 2: "
+     "x = 5. Check: 2(5) + 5 = 15, so the answer is correct."),
+    ("The three states of matter",
+     "The three common states of matter are solid, liquid and gas. A solid has a fixed shape "
+     "and volume. A liquid has a fixed volume but takes the shape of its container. A gas "
+     "spreads out to fill its container."),
+    ("The human heart",
+     "The human heart is a muscular organ that pumps blood around the body. The right side "
+     "sends blood to the lungs to receive oxygen, while the left side pumps oxygen-rich blood "
+     "to the rest of the body."),
+    ("Computer hardware and software",
+     "Hardware refers to the physical parts of a computer, such as the keyboard, monitor, "
+     "processor and memory. Software is the set of programs and instructions that tell the "
+     "hardware what to do."),
+    ("Simple interest",
+     "Simple interest is calculated on the original amount of money. The formula is "
+     "I = (P × R × T) / 100, where P is the principal, R is the annual interest rate "
+     "as a percentage, and T is time in years. For example, 10,000 RWF at 5% for 2 years "
+     "earns 1,000 RWF interest."),
 ]
 
 @st.cache_resource(show_spinner="Loading the Part 1 intent classifier…")
@@ -155,8 +176,10 @@ def make_reply(classifier, message, student_class):
     if generated:
         return generated, intent, confidence, "llm"
 
-    if faq_passage and intent in ("explain_concept", "out_of_scope"):
-        return faq_passage[1], intent, confidence, "retriever"
+    # Use the built-in lesson library for relevant questions even when no API key
+    # is configured. This makes the demo useful offline and keeps answers predictable.
+    if faq_passage and faq_score >= 0.18:
+        return faq_passage[1], intent, confidence, "lesson library"
 
     return INTENT_HELP[intent], intent, confidence, "classifier"
 
@@ -179,6 +202,22 @@ st.caption(
     "A student learning conversation assistant. Ask for an explanation, a worked problem, "
     "practice, answer checking, or study guidance."
 )
+
+with st.expander("See example questions you can ask"):
+    st.markdown(
+        """
+        - **Biology:** What is photosynthesis?
+        - **Biology:** Explain the water cycle.
+        - **Science:** What are the three states of matter?
+        - **Human biology:** What does the heart do?
+        - **Mathematics:** What is a fraction?
+        - **Mathematics:** How do I solve 2x + 5 = 15?
+        - **Mathematics:** What is the difference between area and perimeter?
+        - **Mathematics:** What is a variable?
+        - **ICT:** What is the difference between computer hardware and software?
+        - **Business mathematics:** How do I calculate simple interest?
+        """
+    )
 
 with st.sidebar:
     st.subheader("About this chatbot")

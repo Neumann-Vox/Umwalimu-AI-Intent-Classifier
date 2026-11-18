@@ -25,7 +25,10 @@ jobs:
       - name: Execute notebook
         run: |
           jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=300 --output /tmp/umwalimu-executed.ipynb dataset/Portfolio_Project_2_Part_1_Classifier.ipynb
-      - name: Verify generated files
+      - name: Verify app and dataset copies
         run: |
+          python -m py_compile app.py streamlit/app.py
+          cmp app.py streamlit/app.py
+          cmp intents.csv dataset/intents.csv
           test -s dataset/intents.csv
           test -s dataset/intent_classifier.joblib

@@ -87,7 +87,7 @@ Please ask about first-day guidance, registration, student ID, orientation, scho
 }
 
 RULES = [
-    ("student_support", ["bullying", "bullied", "harass", "threat", "unsafe", "abuse", "hurt myself", "emergency", "medical emergency", "someone is hurting"]),
+    ("student_support", ["bullying", "bullied", "harass", "threat", "unsafe", "abuse", "hurt myself", "emergency", "medical emergency", "someone is hurting", "personal problem", "counsellor", "counselor", "student affairs", "struggling with school work"]),
     ("first_day_guidance", ["where should i go first", "where do i go first", "first day", "new student", "i am new", "im new", "just joined", "new here", "start at school"]),
     ("registration_help", ["registration", "register", "admission", "admissions", "enrol", "enrollment", "enrolment", "documents", "fees", "tuition"]),
     ("student_id_help", ["student id", "school id", "identity card", "id card", "student card"]),

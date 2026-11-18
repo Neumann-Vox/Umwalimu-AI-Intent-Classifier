@@ -1,75 +1,24 @@
-# Umwalimu AI — Portfolio Project 2 Part 2 (Streamlit)
+# Umwalimu AI — Streamlit New Student Guide
 
-This folder contains the Streamlit version of the chatbot submission. It loads the saved
-Part 1 scikit-learn classifier from `intent_classifier.joblib` and uses the selected
-confidence threshold of **0.25**.
+This folder contains a deployment-compatible copy of the Streamlit app.
 
-## Files
+## Run from the repository root
 
-- `app.py` — Streamlit chat interface, classifier integration, response routing, optional
-  FAQ retrieval, optional language-model support, and conversation/feedback logging.
-- `requirements.txt` — runtime packages. The scikit-learn version is pinned to 1.8.0,
-  the version recorded in the Part 1 model notes.
-- `intent_classifier.joblib` — the trained Part 1 model. Keep it beside `app.py`.
-
-## Run locally (Windows)
-
-From the repository root:
-
-```powershell
+```cmd
 py -3.11 -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\activate.bat
 python -m pip install -r streamlit/requirements.txt
 streamlit run streamlit/app.py
 ```
 
-## Deploy on Streamlit Community Cloud
+## Streamlit Community Cloud
 
-1. Push this repository to GitHub.
-2. Open Streamlit Community Cloud and create an app.
-3. Select this repository, branch `main`, and main file path `streamlit/app.py`.
-4. Deploy.
+Choose this repository and branch `main`, then set the main file path to `streamlit/app.py`.
 
-## Optional Google Sheets logging (criterion 3.6)
+The root-level `app.py` is also supported. Both app files are kept aligned.
 
-The lecturer's setup guide describes the private Google Sheet and Apps Script deployment.
+## Behaviour
 
-1. Create a private Google Sheet.
-2. Open Extensions → Apps Script and paste the lecturer-provided `apps_script.gs` code.
-   Save and deploy it as a Web app. Set “Execute as” to Me and access to Anyone, as the
-   lecturer's guide specifies.
-3. Copy the deployed Web app URL ending in `/exec`.
-4. In Streamlit Community Cloud, open the app's Settings → Secrets and add:
+The chatbot uses static response templates and transparent phrase matching. It covers first-day guidance, registration, student ID, facilities, rules, orientation, and student support. It does not call an LLM or require secrets.
 
-```toml
-LOG_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec"
-```
-
-5. Save and test a chat message. A row should appear in the Sheet. Feedback is logged
-   separately when a student selects a thumbs-up or thumbs-down rating.
-
-Do not commit the Sheet URL or the Apps Script file to this repository.
-
-## Optional language-model answers
-
-Add your own OpenRouter key in Streamlit Secrets:
-
-```toml
-OPENROUTER_API_KEY = "YOUR_PRIVATE_KEY"
-```
-
-This key is optional. Never put it in `app.py`, a notebook, README, screenshot, or GitHub.
-Without it, the app still loads the classifier and returns its built-in learning guidance
-and relevant FAQ passages.
-
-## Classifier intents
-
-- `explain_concept`
-- `solve_problem`
-- `practice_request`
-- `check_answer`
-- `learning_guidance`
-- `out_of_scope`
-
-The model's confidence is compared with the Part 1 threshold of 0.25. The FAQ notes are
-general examples; replace or expand them with permitted, verified learning materials.
+Exact school-specific facts are not included. Students are directed to reception, administration, or student affairs for verified room locations, fees, dates, and policies. Add approved institution-specific knowledge before claiming that the bot knows a particular school's procedures.
